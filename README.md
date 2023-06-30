@@ -1,1 +1,3 @@
-# zoom_clone_2023
+# NOOM
+
+Zoom clone using NodeJS, WebRTC & Websockets
