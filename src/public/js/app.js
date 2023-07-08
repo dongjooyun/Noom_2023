@@ -4,18 +4,17 @@ const welcome = document.querySelector("#welcome");
 const nicknameForm = welcome.querySelector("#nickname");
 const roomnameForm = welcome.querySelector("#roomname");
 const room = document.querySelector("#room");
+const h3 = room.querySelector("h3");
 const msgForm = room.querySelector("#msg");
 
 let roomName;
 
 room.hidden = true;
 
-function showRoom() {
+function showRoom(newCount) {
   welcome.hidden = true;
   room.hidden = false;
-  const h3 = room.querySelector("h3");
-  h3.innerText = `${roomName}방`;
-
+  h3.innerText = `${roomName}방 (${newCount})`;
   msgForm.addEventListener("submit", handleMsgSubmit);
 }
 
@@ -55,11 +54,13 @@ function handleRoomSubmit(e) {
 nicknameForm.addEventListener("submit", handleNicknameSubmit);
 roomnameForm.addEventListener("submit", handleRoomSubmit);
 
-socket.on("welcome", (user) => {
+socket.on("welcome", (user, newCount) => {
+  h3.innerText = `${roomName}방 (${newCount})`;
   addMessage(`${user} just joined the room.`);
 });
 
-socket.on("bye", (user) => {
+socket.on("bye", (user, newCount) => {
+  h3.innerText = `${roomName}방 (${newCount})`;
   addMessage(`${user} just left the room.`);
 });
 
