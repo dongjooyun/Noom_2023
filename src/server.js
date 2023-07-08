@@ -16,7 +16,7 @@ const httpServer = http.createServer(app);
 const wsServer = SocketIO(httpServer);
 
 wsServer.on("connection", (socket) => {
-  socket["nickname"] = "Anon";
+  // socket["nickname"] = "Anon";
   socket.onAny((e) => {
     console.log(`Socket Event: ${e}`);
   });
