@@ -4,10 +4,14 @@ const myFace = document.querySelector("#myFace");
 const muteBtn = document.querySelector("#mute");
 const cameraBtn = document.querySelector("#camera");
 const camerasSelect = document.querySelector("#cameras");
+const call = document.querySelector("#call");
+
+call.hidden = true;
 
 let myStream;
 let isMuted = false;
 let isCameraOff = false;
+let roomName;
 
 async function getCameras() {
   try {
@@ -84,3 +88,28 @@ async function handleCameraChange() {
 muteBtn.addEventListener("click", handleMuteClick);
 cameraBtn.addEventListener("click", handleCameraClick);
 camerasSelect.addEventListener("input", handleCameraChange);
+
+// Welcome Form
+const welcome = document.querySelector("#welcome");
+const welcomeForm = welcome.querySelector("form");
+
+function startMedia() {
+  welcome.hidden = true;
+  call.hidden = false;
+  getMedia();
+}
+
+function handleWelcomeSubmit(e) {
+  e.preventDefault();
+  const input = welcomeForm.querySelector("input");
+  socket.emit("join_room", input.value, startMedia);
+  roomName = input.value;
+  input.value = "";
+}
+
+welcomeForm.addEventListener("submit", handleWelcomeSubmit);
+
+// Socket
+socket.on("welcome", () => {
+  console.log("someone joined");
+});
